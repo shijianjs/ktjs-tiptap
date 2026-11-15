@@ -24,7 +24,7 @@ extra["versionSuffix"] = versionSuffix
 
 // Every publishable module shares the prefix, which is also how publishing, Dokka and the version
 // report find them. Keep it in sync with the module directories and settings.gradle.kts.
-val publishedPrefix = "ktjs-wrapper-template-"
+val publishedPrefix = "ktjs-tiptap"
 
 // Dokka aggregates every published module into one API reference. `demo` is not part of the
 // published API surface, so it is excluded by the prefix filter.
@@ -36,7 +36,7 @@ dependencies {
 
 dokka {
     dokkaPublications.html {
-        moduleName.set("ktjs-wrapper-template")
+        moduleName.set("ktjs-tiptap")
         outputDirectory.set(layout.buildDirectory.dir("dokka/html"))
     }
 }
@@ -136,16 +136,16 @@ subprojects {
             name.set(module.name)
             description.set(
                 module.provider {
-                    module.description ?: "Kotlin/JS wrapper for ktjs-wrapper-template."
+                    module.description ?: "Kotlin/JS wrapper for ktjs-tiptap."
                 }
             )
-            url.set("https://github.com/shijianjs/ktjs-wrapper-template")
+            url.set("https://github.com/shijianjs/ktjs-tiptap")
             inceptionYear.set("2026")
 
             licenses {
                 license {
                     name.set("MIT License")
-                    url.set("https://github.com/shijianjs/ktjs-wrapper-template/blob/master/LICENSE")
+                    url.set("https://github.com/shijianjs/ktjs-tiptap/blob/master/LICENSE")
                 }
             }
 
@@ -158,9 +158,9 @@ subprojects {
             }
 
             scm {
-                url.set("https://github.com/shijianjs/ktjs-wrapper-template")
-                connection.set("scm:git:git://github.com/shijianjs/ktjs-wrapper-template.git")
-                developerConnection.set("scm:git:ssh://git@github.com/shijianjs/ktjs-wrapper-template.git")
+                url.set("https://github.com/shijianjs/ktjs-tiptap")
+                connection.set("scm:git:git://github.com/shijianjs/ktjs-tiptap.git")
+                developerConnection.set("scm:git:ssh://git@github.com/shijianjs/ktjs-tiptap.git")
             }
         }
     }

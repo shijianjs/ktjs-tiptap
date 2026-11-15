@@ -17,17 +17,17 @@
 
 ## 项目概况与模块结构
 
-`ktjs-wrapper-template` 为 [`@vaadin/button`](https://www.npmjs.com/package/@vaadin/button) 提供 Kotlin/JS
+`ktjs-tiptap` 为 [`@tiptap/core`](https://www.npmjs.com/package/@tiptap/core) 提供 Kotlin/JS
 wrapper。**本仓库自己就是模板，也是一个能立刻跑的项目**：没有占位符，没有初始化脚本，复制改名即可用
 （`git clone` / GitHub 的 Use this template）。`README.md` 与站点的「派生新项目」页是改名清单。
 
-- `ktjs-wrapper-template-core`：发布模块，也是示例模块（一个 npm 包、一个 Gradle 模块、一个 Kotlin 包）。
+- `ktjs-tiptap`：发布模块，也是示例模块（一个 npm 包、一个 Gradle 模块、一个 Kotlin 包）。
   `version = {上游 npm 版本}-kt.{修订号}`。
 - `demo`：演示页，发布在 Pages 的 `/demo/`，不发布到 Maven、也不进入 Dokka。
 - `docs`：文档站，也是 Pages 的主体。它同样是 Kotlin/JS 模块——站点配置与侧边栏是 Kotlin、页面是
   Markdown，由 [ktjs-docusaurus](https://github.com/shijianjs/ktjs-docusaurus) 的 Gradle 插件组装并调用
   Docusaurus CLI。`pagesSite` 把它放在 Pages **根目录**，demo 在 `/demo/`、API 在 `/api/`：`baseUrl`
-  （`/ktjs-wrapper-template/`）和导航里那两个跳转都由 `Config.kt` 顶部的常量推出来，改布局要一起改。
+  （`/ktjs-tiptap/`）和导航里那两个跳转都由 `Config.kt` 顶部的常量推出来，改布局要一起改。
   不发布、也不进 Dokka。版本在 `gradle.properties`：`ktjs-docusaurus.version` 是 wrapper klib 的，
   `ktjs-docusaurus-gradle-plugin.version` 是插件的，`ktjs-docusaurus-kit.version` 是工具箱的（那个项目每个
   模块各有 `-kt.N` 修订号）；写 SNAPSHOT 时从 `mavenLocal` 解析。首页的 `<ktjs-hero>` / `<ktjs-features>` /
@@ -119,13 +119,13 @@ wrapper 的目标是让上游 npm 包暴露的公开 API 在 Kotlin/JS 侧都能
 
 ### 新增模块
 
-模板没有骨架目录，`ktjs-wrapper-template-core` 就是骨架：复制整个模块目录，再把它改成新的名字与包。
+模板没有骨架目录，`ktjs-tiptap` 就是骨架：复制整个模块目录，再把它改成新的名字与包。
 
-1. 复制 `ktjs-wrapper-template-core` 为 `ktjs-wrapper-template-<name>`，改 `build.gradle.kts` 里的
+1. 复制 `ktjs-tiptap` 为 `ktjs-tiptap-<name>`，改 `build.gradle.kts` 里的
    `npmVersions.getValue("<包名>")` 与 `description`，以及 `src/*/kotlin` 下的包路径与 `package` 行。
-2. `settings.gradle.kts` 加 `include(":ktjs-wrapper-template-<name>")`。
-3. `package.json` 的 `dependencies` 加 npm 包版本；`wrapper-revisions.properties` 加 `ktjs-wrapper-template-<name>=1`。
-4. `demo/build.gradle.kts` 的 `jsMain.dependencies` 加 `implementation(project(":ktjs-wrapper-template-<name>"))`，
+2. `settings.gradle.kts` 加 `include(":ktjs-tiptap-<name>")`。
+3. `package.json` 的 `dependencies` 加 npm 包版本；`wrapper-revisions.properties` 加 `ktjs-tiptap-<name>=1`。
+4. `demo/build.gradle.kts` 的 `jsMain.dependencies` 加 `implementation(project(":ktjs-tiptap-<name>"))`，
    并在 demo 里实际使用它。
 5. 同步检查 Dependabot 分组（`.github/dependabot.yml` 的 `upstream` patterns）、README 模块表与站点页面；
    Dokka 按 `publishedPrefix` 自动收集，无需改。
@@ -444,7 +444,7 @@ registry 是全局的，将来真要 `npm publish` 某个包时得显式 `--regi
   不该卡住合并。
 - `.github/dependabot.yml` 覆盖 `gradle`、`npm`（根目录 `package.json`）和 `github-actions` 三个生态。
   npm 版本由 Dependabot 改 `package.json`，Gradle 自动读取，不再手工改 `npm(...)`。`upstream` 分组里列
-  着本仓库包装的包（目前是 `@vaadin/button`），派生项目按自己的包替换。
+  着本仓库包装的包（目前是 `@tiptap/core`），派生项目按自己的包替换。
 - Gradle wrapper 固定在 `9.4.1`，并在 Dependabot 里忽略 `gradle-wrapper`：IntelliJ IDEA 2026.2.3
   同步 Gradle 9.8.x 项目时会报 `ExternalSystemPartialResolutionException`（消息为空），回退到 9.4.1
   即恢复正常。等 IDEA 修复后再删除这条 ignore 并升级。
@@ -482,7 +482,7 @@ group 固定为 `io.github.shijianjs`。`subprojects` 的 group 必须单独设�
 
 ```bash
 gh workflow run release.yml -f release=release-1 \
-  -f modules=ktjs-wrapper-template-core
+  -f modules=ktjs-tiptap
 ```
 
 - `release`：`release-<数字>`，tag 由工作流创建；工作流不会移动已有 tag。
@@ -516,10 +516,10 @@ gh workflow run release.yml -f release=release-1 \
 ```bash
 ORG_GRADLE_PROJECT_signingInMemoryKey="$(< ~/central-signing-key.txt)" \
 ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=... \
-./gradlew :ktjs-wrapper-template-core:publishAllPublicationsToHubStagingRepository
+./gradlew :ktjs-tiptap:publishAllPublicationsToHubStagingRepository
 
-python3 scripts/hub-release.py --project shijianjs/ktjs-wrapper-template --release release-1 \
-  --module ktjs-wrapper-template-core=<version> --repository . \
+python3 scripts/hub-release.py --project shijianjs/ktjs-tiptap --release release-1 \
+  --module ktjs-tiptap=<version> --repository . \
   --archives build/hub-release/archives --registrations build/hub-release
 ```
 
@@ -547,7 +547,7 @@ klibs.io 从 Maven Central 与 GitHub 自动抓取，无需提交元数据文件
 ## 演示页面与 GitHub Pages
 
 - `demo` 只消费公共 API，不发布、也不进入 Dokka。根 `build.gradle.kts` 的发布与 Dokka 配置按
-  `ktjs-wrapper-template-` 前缀过滤子模块，新增非发布模块时沿用该约定。
+  `ktjs-tiptap-` 前缀过滤子模块，新增非发布模块时沿用该约定。
 - 根 `package.json` 的 `browserslist` 是构建必需项，不是装饰：Babel 从生成的站点目录往上找到它才有编译
   目标。没有它 `@babel/preset-env` 按 ES5 处理，`async/await` 被翻成 regenerator 状态机，
   `@docusaurus/theme-mermaid` 里 `if (__DOCUSAURUS_MERMAID_LAYOUT_ELK_ENABLED__)` 这个守卫就不再是死代码，
@@ -586,8 +586,8 @@ klibs.io 从 Maven Central 与 GitHub 自动抓取，无需提交元数据文件
 
 ## 模板同步与升级
 
-本文件同时是 [`shijianjs/ktjs-wrapper-template`](https://github.com/shijianjs/ktjs-wrapper-template) 的
-`AGENTS.md`：那份是本仓库的（示例模块 `ktjs-wrapper-template-core` 包 `@vaadin/button`），派生项目把项目名、
+本文件同时是 [`shijianjs/ktjs-tiptap`](https://github.com/shijianjs/ktjs-tiptap) 的
+`AGENTS.md`：那份是本仓库的（示例模块 `ktjs-tiptap` 包 `@tiptap/core`），派生项目把项目名、
 包名、模块名换掉，通用约定原样保留。
 
 - 在派生项目里总结出对所有 wrapper 项目都成立的约定（构建、测试、发布、DOM/UI 约定、上游 API 建模等）

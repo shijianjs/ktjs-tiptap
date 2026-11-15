@@ -1,47 +1,49 @@
 ---
-title: ktjs-wrapper-template
-description: 一个立刻能跑的 Kotlin/JS wrapper 项目
+title: ktjs-tiptap
+description: Tiptap 的 Kotlin/JS 绑定 —— 无头富文本编辑器
 hide_table_of_contents: true
 ---
 
-import logo from '@site/static/img/ktjs-wrapper-template-logo.png';
+import logo from '@site/static/img/ktjs-tiptap-logo.png';
 
-{/* `<ktjs-…>` 分区来自 ktjs-docusaurus 的工具箱：Gradle 插件把它的 bundle 放到 `static/ktjs-client/`，
-    `ClientModule.kt` 在页面 hydrate 之后加载它。`href` 写成相对路径，两种 locale 前缀下都能用；
-    `logo` 用 import 取，这样 URL 会带上本站实际的 `baseUrl`。 */}
+{/* `<ktjs-…>` 这些元素来自 ktjs-docusaurus kit：Gradle 插件把 kit 的 bundle 发布到
+    `static/ktjs-client/`，`ClientModule.kt` 在页面 hydrate 后加载它。`href` 保持相对写法，
+    这样同一页面在两个语言前缀下都能用；`logo` 用 import 是为了 URL 带上部署时的 `baseUrl`。 */}
 
-<ktjs-hero logo-src={logo} title="ktjs-wrapper-template" tagline="一个可以照抄的 Kotlin/JS wrapper 项目">
+<ktjs-hero logo-src={logo} title="ktjs-tiptap" tagline="Tiptap 的 Kotlin/JS 绑定 —— 无头富文本编辑器">
 
 <ktjs-action kind="primary" href="intro">开始阅读</ktjs-action>
 
-<ktjs-action kind="secondary" href="https://github.com/shijianjs/ktjs-wrapper-template" icon="simple-icons:github">GitHub</ktjs-action>
+<ktjs-action kind="secondary" href="https://github.com/shijianjs/ktjs-tiptap" icon="simple-icons:github">GitHub</ktjs-action>
 
 </ktjs-hero>
 
-<ktjs-features section-title="为什么从这里开始" tinted>
+<ktjs-features section-title="为什么用 Kotlin 写前端动画" tinted>
 
-<ktjs-feature icon="lucide:play" title="拿来就能跑">克隆下来就是一个能构建、能测试、能部署的项目——第一次 `./gradlew build` 之前没有任何占位符要填。</ktjs-feature>
+<ktjs-feature icon="lucide:type" title="无头编辑器">`Editor` + `editorOptions` + `starterKit()`：三次调用就有能用的编辑器，样式自己写。</ktjs-feature>
 
-<ktjs-feature icon="lucide:package" title="一个包一个模块">一个 wrapper 模块把一个 npm 包映射成一个 Kotlin 包。加第二个包就是复制一个目录，不用重新设计结构。</ktjs-feature>
+<ktjs-feature icon="lucide:list-checks" title="三种命令形态">`chain()` 在一个事务里跑多条命令，`commands` 一次一条，`can()` 先问再做。</ktjs-feature>
 
-<ktjs-feature icon="lucide:shield-check" title="类型而不是 dynamic">上游 `.d.ts` 写成 `external` 声明，编译期就能查；公开面用 `kotlin-browser` 的 `web.*` 类型，能和其他 wrapper 组合。</ktjs-feature>
+<ktjs-feature icon="lucide:text" title="内容任意形态">`getHTML`、`getJSON`、`getText`，再用 `setContent` 写回 —— 文档始终是 ProseMirror 的。</ktjs-feature>
 
-<ktjs-feature icon="lucide:flask-conical" title="在浏览器里测">模块的测试跑在 Chromium 里、打的是真实自定义元素，demo 还有自己的 Playwright 套件，两者都接进了 CI。</ktjs-feature>
+<ktjs-feature icon="lucide:toggle-right" title="可配置 StarterKit">`starterKitOptions { bold = false; heading = headingOptions { levels = … } }`。</ktjs-feature>
 
-<ktjs-feature icon="lucide:book-open" title="文档也是 Kotlin">本站就是由 ktjs-docusaurus 构建的 Kotlin/JS 模块：类型化的配置与侧边栏、Markdown 页面、中英双语。</ktjs-feature>
+<ktjs-feature icon="lucide:flask-conical" title="在 Chromium 里测试">十个浏览器测试驱动真实编辑器，八个 Playwright 用例驱动演示页。</ktjs-feature>
 
-<ktjs-feature icon="lucide:rocket" title="Pages 与发布已接好">`pagesSite` 组装文档、demo 与 API 文档；`release.yml` 负责签名并经由 Maven Central hub 发布模块。</ktjs-feature>
+<ktjs-feature icon="lucide:book-open" title="双语文档">每个页面都有英文与简体中文两版，并跳转到演示页与 Dokka API 文档。</ktjs-feature>
 
 </ktjs-features>
 
 <ktjs-next-steps section-title="接下来">
 
-<ktjs-step href="intro" title="简介">仓库里有什么，为什么不用任何初始化就能用。</ktjs-step>
+<ktjs-step href="intro" title="简介">一页说清封装了什么。</ktjs-step>
 
-<ktjs-step href="guide/getting-started" title="快速开始">环境要求、构建任务与两个开发服务器。</ktjs-step>
+<ktjs-step href="guide/getting-started" title="快速开始">加依赖、挂编辑器、格式化文本。</ktjs-step>
 
-<ktjs-step href="guide/deriving-a-project" title="派生新项目">把它改成你自己的 wrapper 的改名清单。</ktjs-step>
+<ktjs-step href="guide/api-overview" title="API 概览">包结构、三种命令形态，以及有意放宽的类型。</ktjs-step>
 
-<ktjs-step href="https://shijianjs.github.io/ktjs-wrapper-template/api/" title="API 文档">发布模块的 Dokka 产物。</ktjs-step>
+<ktjs-step href="guide/demo" title="演示">在线编辑器与每个按钮的作用。</ktjs-step>
+
+<ktjs-step href="guide/license" title="许可证">本仓库与上游都是 MIT，以及生态里哪部分是付费的。</ktjs-step>
 
 </ktjs-next-steps>

@@ -1,59 +1,88 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
+title: Getting started
 ---
 
 # Getting started
 
-## Requirements
+## Dependency
 
-- JDK 21 or newer; the Gradle wrapper is checked in (9.4.1).
-- Node and npm are downloaded and driven by the Kotlin Gradle plugin — there is no `npm install` step
-  to remember, and `kotlin.js.yarn=false` keeps npm as the package manager.
-- Chromium is downloaded by Playwright the first time a browser test runs.
-
-## Build, test, publish
-
-```bash
-./gradlew build                    # compile, Detekt, browser tests
-./gradlew :ktjs-wrapper-template-core:jsBrowserTest
-./gradlew :demo:e2eTest            # Playwright against the bundled demo page
-./gradlew :docs:docusaurusBuild    # the documentation site
-./gradlew pagesSite                # documentation at /, demo at /demo/, Dokka at /api/
+```kotlin
+kotlin {
+    js {
+        binaries.executable()
+        browser()
+    }
+    sourceSets {
+        jsMain.dependencies {
+            implementation("io.github.shijianjs:ktjs-tiptap:3.34.0-kt.1")
+            // The public API exposes `kotlin-browser`'s `web.*` types, so a consumer must be able to
+            // compile against them.
+            implementation("org.jetbrains.kotlin-wrappers:kotlin-browser:2026.11.1")
+        }
+    }
+}
 ```
 
-`build` does not run the demo's end-to-end suite or assemble the Pages site: both need a browser and
-are part of CI as separate steps.
+Kotlin 2.4.21 or newer; the module emits ESM and targets `es2015` or later.
 
-## Develop
+## Register the plugins
 
-```bash
-./gradlew :docs:docusaurusStart    # dev server for this site
-./gradlew :demo:jsBrowserRun       # dev server for the demo page
+Tiptap has no plugin registry: **extensions are objects you pass in**, and every `@tiptap/extension-*` package is its own npm dependency. This wrapper ships two of them, the two a project needs to get started:
+
+```kotlin
+import io.github.shijianjs.ktjs.tiptap.createEditor
+import io.github.shijianjs.ktjs.tiptap.core.editorOptions
+import io.github.shijianjs.ktjs.tiptap.core.starterKit
 ```
 
-Docusaurus watches the site directory, so Markdown edits reload; Kotlin changes need
-`./gradlew :docs:docusaurusSite` first, because the site imports the compiled module.
+`StarterKit` is one extension that bundles bold, italic, strike, code, underline, headings, blockquote,
+bullet and ordered lists, code block, hard break, horizontal rule, link, paragraph, document, text,
+undo/redo, dropcursor, gapcursor, list keymap and the trailing node. Every other extension
+(`extension-table`, `extension-image`, `extension-mention`, …) is out of scope here: add its npm
+dependency yourself and pass the imported extension into `extensions` as `JsAny`.
 
-## Where things live
+The paid part of the ecosystem lives under the `@tiptap-pro/*` scope on Tiptap's own registry, and it
+is **not** wrapped — see [License](../license).
 
-| Path | Contents |
-| --- | --- |
-| `package.json` | the only place npm versions are declared (Dependabot maintains it) |
-| `wrapper-revisions.properties` | per-module `-kt.N` revision |
-| `ktjs-wrapper-template-core/src/jsMain/kotlin` | the wrapper declarations |
-| `ktjs-wrapper-template-core/src/jsTest/kotlin` | browser tests for them |
-| `demo/src/jsMain` | the demo page and its Kotlin entry point |
-| `docs/src/jsMain/kotlin` | the site configuration and sidebar |
-| `docs/src/jsMain/resources` | Markdown pages, MDX landing page, CSS, translations |
+## First call
 
-## The lock file
+```kotlin
+import io.github.shijianjs.ktjs.tiptap.core.HeadingAttributes
+import io.github.shijianjs.ktjs.tiptap.core.editorOptions
+import io.github.shijianjs.ktjs.tiptap.core.headingOptions
+import io.github.shijianjs.ktjs.tiptap.core.starterKit
+import io.github.shijianjs.ktjs.tiptap.core.starterKitOptions
+import io.github.shijianjs.ktjs.tiptap.createEditor
 
-npm dependencies are resolved once for the whole workspace and pinned in
-`kotlin-js-store/package-lock.json`. After adding or upgrading an npm dependency — or changing a
-module's version — regenerate it:
+fun mount(host: web.html.HTMLElement) {
+    val editor = createEditor(editorOptions {
+        element = host
+        content = "<p>Hello <strong>world</strong></p>"
+        extensions = arrayOf(
+            starterKit(starterKitOptions {
+                heading = headingOptions { levels = arrayOf(1.0, 2.0, 3.0) }
+            }),
+        )
+        onUpdate = { println(editor.getHTML()) }
+    })
 
-```bash
-./gradlew kotlinUpgradePackageLock
+    // A chain runs several commands in one transaction.
+    editor.chain().selectAll().toggleBold().run()
+    editor.chain().selectAll().setHeading(HeadingAttributes(2.0)).run()
+
+    println(editor.getText())
+}
 ```
 
-CI verifies the committed file, so a forgotten regeneration fails the build rather than drifting.
+Tiptap is headless: the editor element is a bare contenteditable, so a page that wants borders,
+spacing or typography supplies its own CSS. `injectCSS` (default `true`) only adds the bare minimum.
+
+## Build and test
+
+```bash
+./gradlew build                     # compile, Detekt, browser tests
+./gradlew :ktjs-tiptap:jsBrowserTest     # only the wrapper's browser tests
+./gradlew :docs:docusaurusStart     # documentation dev server
+./gradlew pagesSite                 # docs at /, demo at /demo/, Dokka at /api/
+```

@@ -34,7 +34,7 @@ updates:
       # One PR per upstream ecosystem. Add a pattern per scope/package family as modules grow.
       upstream:
         patterns:
-          - "@vaadin/button"
+          - "@tiptap/core"
 
   - package-ecosystem: github-actions
     directory: "/"

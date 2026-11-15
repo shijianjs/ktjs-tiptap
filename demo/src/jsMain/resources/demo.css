@@ -1,55 +1,109 @@
-:root {
-    color-scheme: light dark;
-    --page-fg: #1f2933;
-    --page-bg: #ffffff;
-    --page-muted: #52606d;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --page-fg: #e4e7eb;
-        --page-bg: #111827;
-        --page-muted: #9aa5b1;
-    }
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
-    color: var(--page-fg);
-    background: var(--page-bg);
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.6;
+    font-family: system-ui, sans-serif;
+    color: #2d3748;
+    background: #f7fafc;
 }
 
 .page {
-    max-width: 72rem;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
+    padding: 24px 20px 64px;
 }
 
 .header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
 .logo {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
 }
 
-.hint,
-.status {
-    color: var(--page-muted);
+h1 {
+    font-size: 1.4rem;
+    margin: 0;
+    flex: 1;
 }
 
-/* The demo page is a plain page, so the element it wraps can be spaced with a tag selector here. */
-.page vaadin-button {
-    margin-right: 0.5rem;
+.hint {
+    color: #4a5568;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 6px 0;
+}
+
+.hint.small {
+    font-size: 0.8rem;
+    color: #718096;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 8px;
+}
+
+button {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #2d3748;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #edf2f7;
+}
+
+/* The toolbar marks the formats that are active at the caret. */
+button[data-active="true"] {
+    border-color: #2b6cb0;
+    background: #ebf8ff;
+    color: #1a4971;
+}
+
+.view {
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin: 8px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Tiptap mounts its own editable element here, so the host only frames it. */
+.canvas {
+    min-height: 240px;
+    padding: 16px 20px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+.canvas .tiptap:focus {
+    outline: none;
+}
+
+.canvas .tiptap p {
+    margin: 0 0 0.8em;
+}
+
+.html {
+    margin-top: 16px;
+    padding: 12px;
+    max-height: 240px;
+    overflow: auto;
+    background: #1a202c;
+    color: #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
 }
