@@ -1,7 +1,7 @@
 package demo
 
-import demo.page.editor.EditorPage
-import demo.page.overview.OverviewPage
+import demo.page.editor.newEditorPage
+import demo.page.overview.newOverviewPage
 import io.github.shijianjs.ktjs.demo.nav.DemoMenu
 import io.github.shijianjs.ktjs.demo.nav.Entry
 import io.github.shijianjs.ktjs.demo.nav.Group
@@ -28,7 +28,7 @@ internal val EXAMPLES: Group = Group("examples", "lucide:play")
  */
 fun siteMenu(): DemoMenu = DemoMenu(
     listOf(
-        Entry("overview", START, "lucide:sparkles") { OverviewPage() },
-        Entry("editor", EXAMPLES, "lucide:text-cursor-input") { EditorPage() },
+        Entry("overview", START, "lucide:sparkles") { newOverviewPage() },
+        Entry("editor", EXAMPLES, "lucide:text-cursor-input") { newEditorPage() },
     ),
 )
