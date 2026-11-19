@@ -15,6 +15,15 @@ through the wrapper's command chain: the marks (`toggleBold`, `toggleItalic`, `t
 live `getHTML`, and the mark buttons mark themselves active through `isActive` — a headless editor has
 no other way to show state. The language switch rewrites every label.
 
+```mermaid
+flowchart LR
+  TOOLBAR["toolbar buttons"] -->|"chain().focus().toggleBold().run()"| ED["Editor<br/>(headless)"]
+  ED -->|"getText"| COUNT["status line: words / characters"]
+  ED -->|"getHTML"| OUT["HTML panel"]
+  ED -->|"isActive(mark)"| STATE["button active state"]
+  STATE --> TOOLBAR
+```
+
 
 The language button in the page header switches between English and Simplified Chinese: every
 visible string changes, not just the title.

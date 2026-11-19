@@ -18,6 +18,22 @@ title: 简介
 
 一个 npm scope、一个 Gradle 模块、一个 Kotlin 包（`io.github.shijianjs.ktjs.tiptap`），选项、命令、StarterKit 工厂与事件放在 `core` 子包。
 
+```mermaid
+flowchart TB
+  NPM["npm：@tiptap/core + @tiptap/starter-kit 3.34"] --> ED["Editor<br/>选项、挂载、内容读写"]
+  NPM --> CMD["命令<br/>chain / commands / can"]
+  NPM --> EVT["事件"]
+  NPM --> SK["starterKit(options)<br/>bold = false、headingOptions { … }"]
+  ED --> K["io.github.shijianjs.ktjs.tiptap<br/>（含 core 子包）"]
+  CMD --> K
+  EVT --> K
+  SK --> K
+  K --> D["演示页：一个编辑器 + 一条工具栏"]
+```
+
+三种命令形态决定了页面怎么写：`chain` 用于必须作为一步撤销的命令串，`commands` 用于单次立即执行，
+`can` 用于判断某个按钮该不该可点。
+
 ## 许可证
 
 wrapper 自身是 MIT。上游 `@tiptap/core` 的许可证与 wrapper 不同，商用前请读

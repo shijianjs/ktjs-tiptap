@@ -19,6 +19,23 @@ The wrapper covers `@tiptap/core` 3.34 and `@tiptap/starter-kit` 3.34, both MIT:
 
 One npm scope, one Gradle module, one Kotlin package (`io.github.shijianjs.ktjs.tiptap`) with a `core` sub-package for the options, the commands, the StarterKit factory and the events.
 
+```mermaid
+flowchart TB
+  NPM["npm: @tiptap/core + @tiptap/starter-kit 3.34"] --> ED["Editor<br/>options, mount, content access"]
+  NPM --> CMD["commands<br/>chain / commands / can"]
+  NPM --> EVT["events"]
+  NPM --> SK["starterKit(options)<br/>bold = false, headingOptions { … }"]
+  ED --> K["io.github.shijianjs.ktjs.tiptap<br/>(+ core sub-package)"]
+  CMD --> K
+  EVT --> K
+  SK --> K
+  K --> D["demo: toolbar over one editor"]
+```
+
+The three command shapes are the part that decides how a page is written: `chain` for a run of
+commands that must undo as one step, `commands` for a single immediate call, `can` to ask whether a
+button should be enabled at all.
+
 ## License
 
 The wrapper itself is MIT. The upstream `@tiptap/core` license differs from it — read the
