@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Demo page for ktjs-tiptap: a Kotlin/JS wrapper around Tiptap core and StarterKit.">
+    <meta name="description" content="Demo page for ktjs-tiptap: a Kotlin/JS wrapper published by shijianjs.">
     <title>ktjs-tiptap demo</title>
     <link rel="icon" href="img/ktjs-tiptap-logo.png">
-    <link rel="stylesheet" href="demo.css">
+    <!-- Lumo's design tokens and the utility classes the shell uses; copied from the npm workspace. -->
+    <link rel="stylesheet" href="lumo.css">
+    <link rel="stylesheet" href="utility.css">
     <script src="demo.js" defer></script>
 </head>
 <body>
+<!--
+  The shell is named here, not created by the script: `main` defines the tag and mounts the menu into
+  the element the browser built, so there is exactly one `<ktjs-demo-layout>` on the page.
+-->
+<ktjs-demo-layout id="demo"></ktjs-demo-layout>
 <noscript>This demo is written in Kotlin/JS and needs JavaScript enabled.</noscript>
 </body>
 </html>

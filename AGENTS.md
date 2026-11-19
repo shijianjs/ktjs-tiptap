@@ -597,3 +597,23 @@ klibs.io 从 Maven Central 与 GitHub 自动抓取，无需提交元数据文件
 - 优先就地修改或扩展现有小节，不要为同一主题新开重复小节。
 - 从模板升级派生项目时仍从模板仓库 `git diff` 取变更后人工 cherry-pick，不要用派生项目的其他文件
   反向覆盖模板。
+
+## 演示页：桥到 `ktjs-demo-kit`
+
+演示页不再自己写外壳：`index.html` 只声明一个 `<ktjs-demo-layout id="demo">`，`Main.kt` 只做
+`DemoLayout.define()` + `layout.mount(LayoutConfig(...))`，导航、语言切换、主题、面包屑、链接菜单全部由
+`ktjs-demo-kit` 提供。`demo` 自己的那份 `I18n.kt` / `Ui.kt` / `Playground.kt` / `demo.css` 已删掉。
+
+- `SiteMenu`：条目即页面（`Entry(id, group, icon) { XxxPage() }`）；只有一页的父级不要建组，直接放条目。
+- `SiteTexts`：每种语言一个 `SiteTexts`，`texts(EN to …, ZH_HANS to …)` 一次注册；页面自己的文案各自
+  一个 `Translations<T>`，用 `Binder` 绑定到节点，`applyTranslation(lang)` 里统一 `apply(lang)`。
+- 页面里不要手搓卡片/行/网格：`exampleBox`（Vaadin 卡片）、`row` / `col`（Vaadin 布局）、`grid`（网格）、
+  `sectionBlock` 都在 kit 里；多行 CSS 拼一个已有的组件语义是明确的返工项。
+
+三件与「编辑器」类库相关的事，都已在 e2e 里验证过：
+
+- **编辑器要等宿主挂载**：`automaticLayout` 会量尺寸，页面初始化时节点还没进文档。统一用
+  `requestAnimationFrame` 轮询 `isConnected`，`connectedCallback` 里不做这件事（页面没有挂载钩子）。
+- **切换语言不重建编辑器**：只重设按钮文案、重读文档（`refresh()`），正文、选区与撤销历史都还在。
+- **卡片自己给表面**：画布只留一个 `minHeight`，边框、背景、内边距都由 `exampleBox` 的卡片提供；
+  `<pre>` 只声明等宽字体与 `pre-wrap`。
