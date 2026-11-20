@@ -164,7 +164,7 @@ internal class EditorPage : DemoPage() {
 
     init {
         val section = sectionBlock()
-        texts.bind(section.title, { it.toolbarHeading })
+        texts.bind(section.heading, { it.toolbarHeading })
         texts.bind(section.hint, { it.hint })
 
         section.body.append(
@@ -175,7 +175,7 @@ internal class EditorPage : DemoPage() {
 
         // The document read back is its own block: a heading, then the card holding the `<pre>`.
         val output = sectionBlock()
-        texts.bind(output.title, { it.htmlHeading })
+        texts.bind(output.heading, { it.htmlHeading })
         output.body.append(exampleBox(null, html))
         body.append(section.root, output.root)
 
