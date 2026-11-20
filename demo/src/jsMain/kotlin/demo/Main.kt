@@ -11,7 +11,7 @@ import io.github.shijianjs.ktjs.dom.element.invoke
 /**
  * Entry point of the demo page.
  *
- * The `<ktjs-demo-layout>` comes from `index.html`: the markup names it, this file defines the tag
+ * The `<ktjs-demo-layout>` comes from `index.html`: the markup names it, this file registers the tag
  * and mounts the menu into the already-connected element. Creating a second layout here would leave
  * the declared one empty and the site with two sidebars.
  */
