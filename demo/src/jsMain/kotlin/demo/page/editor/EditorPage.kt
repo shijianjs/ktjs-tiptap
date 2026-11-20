@@ -23,7 +23,6 @@ import io.github.shijianjs.ktjs.vaadin.button.ButtonElement
 import io.github.shijianjs.ktjs.vaadin.button.createButton
 import web.animations.requestAnimationFrame
 import web.cssom.FontFamily
-import web.cssom.FontSize
 import web.cssom.Margin
 import web.cssom.WhiteSpace
 import web.cssom.px
@@ -31,21 +30,6 @@ import web.dom.clickEvent
 import web.events.addHandler
 import web.html.HTMLElement
 import web.html.HtmlTagName
-
-/** Every string this page shows, in one language. */
-private class EditorTexts(
-    val title: String,
-    val summary: String,
-    val toolbarHeading: String,
-    val htmlHeading: String,
-    val statusLabel: String,
-    val emptyHtml: String,
-    val hint: String,
-    val initial: String,
-    val linkHref: String,
-    /** The toolbar labels, in the order of [ACTIONS]. */
-    val labels: List<String>,
-)
 
 private val editorEnglish: EditorTexts = EditorTexts(
     title = "Editor",
@@ -90,13 +74,6 @@ private val editorChinese: EditorTexts = EditorTexts(
 private val editorTexts: Translations<EditorTexts> = texts(
     Langs.EN to editorEnglish,
     Langs.ZH_HANS to editorChinese,
-)
-
-/** One toolbar button: the command it runs, and the mark whose active state it reports. */
-private class Action(
-    val id: String,
-    val mark: String?,
-    val run: (Editor, EditorTexts) -> Unit,
 )
 
 private val ACTIONS: List<Action> = listOf(
@@ -158,7 +135,6 @@ internal class EditorPage : DemoPage() {
     private val buttons: List<ButtonElement> = ACTIONS.map { action ->
         createButton { setAttribute("data-action", action.id) }
     }
-
 
     init {
         val section = SectionBlock.NAME { show() }

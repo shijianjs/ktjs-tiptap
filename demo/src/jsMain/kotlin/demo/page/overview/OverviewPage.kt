@@ -19,22 +19,6 @@ import io.github.shijianjs.ktjs.dom.element.unaryPlus
 import io.github.shijianjs.ktjs.dom.webcomponent.CustomElementReferenceAdapter
 import web.html.HtmlTagName
 
-/** Every string this page shows, in one language. */
-private class OverviewTexts(
-    val title: String,
-    val summary: String,
-    val docsLink: String,
-    val sourceLink: String,
-    val apiLink: String,
-    val purposeHeading: String,
-    val body: String,
-    val bullets: List<String>,
-    val headlessHeading: String,
-    val headlessBody: String,
-    val nextHeading: String,
-    val nextBody: String,
-)
-
 private val overviewEnglish: OverviewTexts = OverviewTexts(
     title = "Overview",
     summary = "A Kotlin/JS wrapper for Tiptap core and StarterKit: a typed options object, a typed " +
@@ -98,7 +82,6 @@ private val overviewTexts: Translations<OverviewTexts> = texts(
 internal class OverviewPage : DemoPage() {
 
     private val texts = Binder(overviewTexts)
-
 
     init {
         addLink(texts.bind(anchor("", DOCS_URL, external = true), { it.docsLink }))
