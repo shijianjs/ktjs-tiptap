@@ -31,70 +31,6 @@ import web.events.addHandler
 import web.html.HTMLElement
 import web.html.HtmlTagName
 
-private val editorEnglish: EditorTexts = EditorTexts(
-    title = "Editor",
-    summary = "The real Tiptap core and StarterKit behind a typed command chain: the toolbar formats " +
-        "the text, the document stays headless, and the HTML under it is the only rendering.",
-    toolbarHeading = "Format",
-    htmlHeading = "The document as HTML",
-    statusLabel = "Words / characters",
-    emptyHtml = "The document's HTML shows up here.",
-    hint = "Everything on this page goes through the wrapper: `createEditor`, `editorOptions`, " +
-        "`starterKit`, the command chain, `getHTML` / `getText`, and `TiptapEvents`.",
-    initial = "<p>This paragraph is the initial content. Select a word and try the toolbar: the editor " +
-        "is headless, so what you see is the browser rendering the document Tiptap keeps.</p>" +
-        "<p>Type <code>**markdown**</code> shortcuts too — StarterKit installs the input rules.</p>",
-    linkHref = "https://tiptap.dev",
-    labels = listOf(
-        "Bold", "Italic", "Underline", "Strike", "Code", "Heading 1", "Heading 2", "Paragraph",
-        "Bullet list", "Ordered list", "Blockquote", "Code block", "Link", "Undo", "Redo", "Clear",
-    ),
-)
-
-private val editorChinese: EditorTexts = EditorTexts(
-    title = "编辑器",
-    summary = "真实 Tiptap core 与 StarterKit，外面是一条有类型的命令链：工具栏格式化文本，文档保持无头，" +
-        "下面那段 HTML 才是唯一产物。",
-    toolbarHeading = "格式化",
-    htmlHeading = "文档的 HTML",
-    statusLabel = "词数 / 字符数",
-    emptyHtml = "文档的 HTML 会显示在这里。",
-    hint = "页面上的操作全走封装：`createEditor`、`editorOptions`、`starterKit`、命令链、" +
-        "`getHTML` / `getText`，以及 `TiptapEvents`。",
-    initial = "<p>这一段就是初始内容。选中一个词再点工具栏试试：编辑器是无头的，你看到的是浏览器在渲染 " +
-        "Tiptap 持有的文档。</p><p>也可以直接敲 <code>**markdown**</code> 快捷键 —— StarterKit 已经装好了 " +
-        "输入规则。</p>",
-    linkHref = "https://tiptap.dev",
-    labels = listOf(
-        "加粗", "斜体", "下划线", "删除线", "行内代码", "一级标题", "二级标题", "正文",
-        "无序列表", "有序列表", "引用", "代码块", "链接", "撤销", "重做", "清空",
-    ),
-)
-
-private val editorTexts: Translations<EditorTexts> = texts(
-    Langs.EN to editorEnglish,
-    Langs.ZH_HANS to editorChinese,
-)
-
-private val ACTIONS: List<Action> = listOf(
-    Action("bold", "bold") { editor, _ -> editor.chain().focus().toggleBold().run() },
-    Action("italic", "italic") { editor, _ -> editor.chain().focus().toggleItalic().run() },
-    Action("underline", "underline") { editor, _ -> editor.chain().focus().toggleUnderline().run() },
-    Action("strike", "strike") { editor, _ -> editor.chain().focus().toggleStrike().run() },
-    Action("code", "code") { editor, _ -> editor.chain().focus().toggleCode().run() },
-    Action("h1", null) { editor, _ -> editor.chain().focus().setHeading(HeadingAttributes(1.0)).run() },
-    Action("h2", null) { editor, _ -> editor.chain().focus().setHeading(HeadingAttributes(2.0)).run() },
-    Action("paragraph", null) { editor, _ -> editor.chain().focus().setParagraph().run() },
-    Action("bullet", null) { editor, _ -> editor.chain().focus().toggleBulletList().run() },
-    Action("ordered", null) { editor, _ -> editor.chain().focus().toggleOrderedList().run() },
-    Action("quote", null) { editor, _ -> editor.chain().focus().toggleBlockquote().run() },
-    Action("codeblock", null) { editor, _ -> editor.chain().focus().toggleCodeBlock().run() },
-    Action("link", null) { editor, texts -> editor.chain().focus().selectAll().setLink(LinkAttributes(texts.linkHref)).run() },
-    Action("undo", null) { editor, _ -> editor.chain().focus().undo().run() },
-    Action("redo", null) { editor, _ -> editor.chain().focus().redo().run() },
-    Action("clear", null) { editor, _ -> editor.chain().focus().clearContent(true).run() },
-)
-
 /**
  * The editor page: a toolbar, the editable canvas, and the document read back as HTML.
  *
@@ -213,5 +149,66 @@ internal class EditorPage : DemoPage() {
         refresh()
     }
 
-    companion object : CustomElementReferenceAdapter<EditorPage>(EditorPage::class.js, "tiptap-editor-page")
+    companion object : CustomElementReferenceAdapter<EditorPage>(EditorPage::class.js, "tiptap-editor-page") {
+        private val editorEnglish: EditorTexts = EditorTexts(
+            title = "Editor",
+            summary = "The real Tiptap core and StarterKit behind a typed command chain: the toolbar formats " +
+                "the text, the document stays headless, and the HTML under it is the only rendering.",
+            toolbarHeading = "Format",
+            htmlHeading = "The document as HTML",
+            statusLabel = "Words / characters",
+            emptyHtml = "The document's HTML shows up here.",
+            hint = "Everything on this page goes through the wrapper: `createEditor`, `editorOptions`, " +
+                "`starterKit`, the command chain, `getHTML` / `getText`, and `TiptapEvents`.",
+            initial = "<p>This paragraph is the initial content. Select a word and try the toolbar: the editor " +
+                "is headless, so what you see is the browser rendering the document Tiptap keeps.</p>" +
+                "<p>Type <code>**markdown**</code> shortcuts too — StarterKit installs the input rules.</p>",
+            linkHref = "https://tiptap.dev",
+            labels = listOf(
+                "Bold", "Italic", "Underline", "Strike", "Code", "Heading 1", "Heading 2", "Paragraph",
+                "Bullet list", "Ordered list", "Blockquote", "Code block", "Link", "Undo", "Redo", "Clear",
+            ),
+        )
+        private val editorChinese: EditorTexts = EditorTexts(
+            title = "编辑器",
+            summary = "真实 Tiptap core 与 StarterKit，外面是一条有类型的命令链：工具栏格式化文本，文档保持无头，" +
+                "下面那段 HTML 才是唯一产物。",
+            toolbarHeading = "格式化",
+            htmlHeading = "文档的 HTML",
+            statusLabel = "词数 / 字符数",
+            emptyHtml = "文档的 HTML 会显示在这里。",
+            hint = "页面上的操作全走封装：`createEditor`、`editorOptions`、`starterKit`、命令链、" +
+                "`getHTML` / `getText`，以及 `TiptapEvents`。",
+            initial = "<p>这一段就是初始内容。选中一个词再点工具栏试试：编辑器是无头的，你看到的是浏览器在渲染 " +
+                "Tiptap 持有的文档。</p><p>也可以直接敲 <code>**markdown**</code> 快捷键 —— StarterKit 已经装好了 " +
+                "输入规则。</p>",
+            linkHref = "https://tiptap.dev",
+            labels = listOf(
+                "加粗", "斜体", "下划线", "删除线", "行内代码", "一级标题", "二级标题", "正文",
+                "无序列表", "有序列表", "引用", "代码块", "链接", "撤销", "重做", "清空",
+            ),
+        )
+        private val editorTexts: Translations<EditorTexts> = texts(
+            Langs.EN to editorEnglish,
+            Langs.ZH_HANS to editorChinese,
+        )
+        private val ACTIONS: List<Action> = listOf(
+            Action("bold", "bold") { editor, _ -> editor.chain().focus().toggleBold().run() },
+            Action("italic", "italic") { editor, _ -> editor.chain().focus().toggleItalic().run() },
+            Action("underline", "underline") { editor, _ -> editor.chain().focus().toggleUnderline().run() },
+            Action("strike", "strike") { editor, _ -> editor.chain().focus().toggleStrike().run() },
+            Action("code", "code") { editor, _ -> editor.chain().focus().toggleCode().run() },
+            Action("h1", null) { editor, _ -> editor.chain().focus().setHeading(HeadingAttributes(1.0)).run() },
+            Action("h2", null) { editor, _ -> editor.chain().focus().setHeading(HeadingAttributes(2.0)).run() },
+            Action("paragraph", null) { editor, _ -> editor.chain().focus().setParagraph().run() },
+            Action("bullet", null) { editor, _ -> editor.chain().focus().toggleBulletList().run() },
+            Action("ordered", null) { editor, _ -> editor.chain().focus().toggleOrderedList().run() },
+            Action("quote", null) { editor, _ -> editor.chain().focus().toggleBlockquote().run() },
+            Action("codeblock", null) { editor, _ -> editor.chain().focus().toggleCodeBlock().run() },
+            Action("link", null) { editor, texts -> editor.chain().focus().selectAll().setLink(LinkAttributes(texts.linkHref)).run() },
+            Action("undo", null) { editor, _ -> editor.chain().focus().undo().run() },
+            Action("redo", null) { editor, _ -> editor.chain().focus().redo().run() },
+            Action("clear", null) { editor, _ -> editor.chain().focus().clearContent(true).run() },
+        )
+    }
 }
