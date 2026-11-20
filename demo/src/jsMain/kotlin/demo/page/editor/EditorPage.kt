@@ -1,19 +1,17 @@
 package demo.page.editor
 
 import io.github.shijianjs.ktjs.demo.page.DemoPage
-import io.github.shijianjs.ktjs.dom.webcomponent.defineIfMissing
-import web.components.CustomElementReference
-import web.dom.TagName
 import io.github.shijianjs.ktjs.demo.i18n.Binder
 import io.github.shijianjs.ktjs.demo.i18n.Lang
 import io.github.shijianjs.ktjs.demo.i18n.Langs
 import io.github.shijianjs.ktjs.demo.i18n.Translations
 import io.github.shijianjs.ktjs.demo.i18n.texts
-import io.github.shijianjs.ktjs.demo.page.exampleBox
-import io.github.shijianjs.ktjs.demo.page.grid
-import io.github.shijianjs.ktjs.demo.page.sectionBlock
+import io.github.shijianjs.ktjs.demo.page.Blocks.exampleBox
+import io.github.shijianjs.ktjs.demo.page.Grid
+import io.github.shijianjs.ktjs.demo.page.SectionBlock
 import io.github.shijianjs.ktjs.dom.element.inlineStyle
 import io.github.shijianjs.ktjs.dom.element.invoke
+import io.github.shijianjs.ktjs.dom.webcomponent.CustomElementReferenceAdapter
 import io.github.shijianjs.ktjs.tiptap.Editor
 import io.github.shijianjs.ktjs.tiptap.core.HeadingAttributes
 import io.github.shijianjs.ktjs.tiptap.core.LinkAttributes
@@ -163,18 +161,18 @@ internal class EditorPage : DemoPage() {
 
 
     init {
-        val section = sectionBlock()
+        val section = SectionBlock.NAME { show() }
         texts.bind(section.heading, { it.toolbarHeading })
         texts.bind(section.hint, { it.hint })
 
         section.body.append(
-            grid(minColumnWidth = 110, *buttons.toTypedArray()),
+            Grid.NAME { show(110); add(*buttons.toTypedArray()) },
             status,
             exampleBox(null, canvas),
         )
 
         // The document read back is its own block: a heading, then the card holding the `<pre>`.
-        val output = sectionBlock()
+        val output = SectionBlock.NAME { show() }
         texts.bind(output.heading, { it.htmlHeading })
         output.body.append(exampleBox(null, html))
         body.append(section.root, output.root)
@@ -239,17 +237,5 @@ internal class EditorPage : DemoPage() {
         refresh()
     }
 
-    companion object : CustomElementReference<EditorPage>(EditorPage::class.js) {
-        val NAME: TagName<EditorPage> = TagName("tiptap-editor-page")
-
-        fun define() {
-            defineIfMissing(NAME, this)
-        }
-    }
-}
-
-/** Creates a defined `<tiptap-editor-page>`. */
-internal fun newEditorPage(): EditorPage {
-    EditorPage.define()
-    return EditorPage.NAME()
+    companion object : CustomElementReferenceAdapter<EditorPage>(EditorPage::class.js, "tiptap-editor-page")
 }
