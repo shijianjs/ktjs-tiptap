@@ -11,7 +11,6 @@ import io.github.shijianjs.ktjs.demo.page.Grid
 import io.github.shijianjs.ktjs.demo.page.SectionBlock
 import io.github.shijianjs.ktjs.dom.element.inlineStyle
 import io.github.shijianjs.ktjs.dom.element.invoke
-import io.github.shijianjs.ktjs.dom.webcomponent.CustomElementReferenceAdapter
 import io.github.shijianjs.ktjs.tiptap.Editor
 import io.github.shijianjs.ktjs.tiptap.core.HeadingAttributes
 import io.github.shijianjs.ktjs.tiptap.core.LinkAttributes
@@ -149,7 +148,7 @@ internal class EditorPage : DemoPage() {
         refresh()
     }
 
-    companion object : CustomElementReferenceAdapter<EditorPage>(EditorPage::class.js, "tiptap-editor-page") {
+    companion object : EditorPageDefaultReference() {
         private val editorEnglish: EditorTexts = EditorTexts(
             title = "Editor",
             summary = "The real Tiptap core and StarterKit behind a typed command chain: the toolbar formats " +
