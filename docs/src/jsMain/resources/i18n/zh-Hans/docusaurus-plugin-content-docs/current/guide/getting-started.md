@@ -39,6 +39,14 @@ import io.github.shijianjs.ktjs.tiptap.core.starterKit
 
 生态里的付费部分在 Tiptap 自家 registry 的 `@tiptap-pro/*` scope 下，本仓库**没有**封装 —— 见[许可证](../license)。
 
+```mermaid
+flowchart LR
+    OPT["editorOptions { element; content<br/>extensions = arrayOf(starterKit(…)) }"] --> ED["createEditor"]
+    ED --> INIT["初始化异步：setTimeout(0) 之后 isInitialized / create 事件"]
+    ED --> CMD["chain().selectAll().toggleBold().run()"]
+    ED --> OUT["getHTML() / getText()"]
+```
+
 ## 第一个调用
 
 ```kotlin

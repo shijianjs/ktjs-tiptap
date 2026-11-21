@@ -12,6 +12,14 @@ title: API 概览
 | `io.github.shijianjs.ktjs.tiptap` | `Editor`、`createEditor`、`tiptapEditor`、`emptyTiptapEditor`、`TiptapExtension`、`TiptapCoreModule` |
 | `…tiptap.core` | `EditorOptions`、`editorOptions`、`ParseOptions`、`parseOptions`、`LinkAttributes`、`HeadingAttributes`、`CodeBlockAttributes`、`codeBlockAttributes`、`StarterKitOptions`、`starterKitOptions`、`starterKit`、`HeadingOptions`、`headingOptions`、`StarterKitNames`、`TiptapChainedCommands`、`TiptapSingleCommands`、`TiptapCanCommands`、`TiptapEvents`、`TiptapEventPayload` |
 
+```mermaid
+flowchart LR
+    EXT["starterKit(starterKitOptions { … })"] --> ED["Editor"]
+    ED --> CH["chain() → TiptapChainedCommands<br/>每个方法返回链，run() 提交"]
+    ED --> CM["commands → TiptapSingleCommands<br/>一次调用，返回 boolean"]
+    ED --> CAN["can() → TiptapCanCommands<br/>只问不提交"]
+```
+
 ## 本 wrapper 的约定
 
 - **三种命令形态，三个接口。** 上游用一个巨大的联合类型从已安装扩展推导命令类型；wrapper 把

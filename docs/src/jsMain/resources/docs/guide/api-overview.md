@@ -12,6 +12,14 @@ title: API overview
 | `io.github.shijianjs.ktjs.tiptap` | `Editor`, `createEditor`, `tiptapEditor`, `emptyTiptapEditor`, `TiptapExtension`, `TiptapCoreModule` |
 | `…tiptap.core` | `EditorOptions`, `editorOptions`, `ParseOptions`, `parseOptions`, `LinkAttributes`, `HeadingAttributes`, `CodeBlockAttributes`, `codeBlockAttributes`, `StarterKitOptions`, `starterKitOptions`, `starterKit`, `HeadingOptions`, `headingOptions`, `StarterKitNames`, `TiptapChainedCommands`, `TiptapSingleCommands`, `TiptapCanCommands`, `TiptapEvents`, `TiptapEventPayload` |
 
+```mermaid
+flowchart LR
+    EXT["starterKit(starterKitOptions { … })"] --> ED["Editor"]
+    ED --> CH["chain() → TiptapChainedCommands<br/>every method returns the chain, run() dispatches"]
+    ED --> CM["commands → TiptapSingleCommands<br/>one call, boolean result"]
+    ED --> CAN["can() → TiptapCanCommands<br/>asks, dispatches nothing"]
+```
+
 ## Conventions this wrapper follows
 
 - **Three command shapes, three interfaces.** Upstream derives every command type from the installed

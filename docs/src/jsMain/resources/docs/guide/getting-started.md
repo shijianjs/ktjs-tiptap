@@ -45,6 +45,14 @@ dependency yourself and pass the imported extension into `extensions` as `JsAny`
 The paid part of the ecosystem lives under the `@tiptap-pro/*` scope on Tiptap's own registry, and it
 is **not** wrapped — see [License](../license).
 
+```mermaid
+flowchart LR
+    OPT["editorOptions { element; content<br/>extensions = arrayOf(starterKit(…)) }"] --> ED["createEditor"]
+    ED --> INIT["initialisation is async: isInitialized / the create event after setTimeout(0)"]
+    ED --> CMD["chain().selectAll().toggleBold().run()"]
+    ED --> OUT["getHTML() / getText()"]
+```
+
 ## First call
 
 ```kotlin
