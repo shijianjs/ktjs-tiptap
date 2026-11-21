@@ -22,7 +22,7 @@ class DemoPageTest {
 
         assertTrue(page.title().contains("ktjs-tiptap"), "title: ${page.title()}")
         assertTrue(page.locator("img.layout__logo").isVisible(), "the shell shows the project logo")
-        assertEquals("Overview", page.locator("ktjs-demo-page h1").textContent())
+        assertEquals("Overview", page.locator("tiptap-overview-page h1").textContent())
         assertTrue(
             page.locator("vaadin-side-nav-item[data-route='editor']").isVisible(),
             "the sidebar lists the editor route",
@@ -140,7 +140,7 @@ class DemoPageTest {
 
     private fun goTo(page: Page, route: String) {
         page.locator("vaadin-side-nav-item[data-route='$route']").click()
-        page.waitForSelector("ktjs-demo-page h1")
+        page.waitForSelector("tiptap-$route-page h1")
         page.waitForSelector("[data-canvas] .tiptap", Page.WaitForSelectorOptions().setTimeout(20_000.0))
     }
 
