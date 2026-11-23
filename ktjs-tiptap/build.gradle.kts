@@ -59,7 +59,7 @@ kotlin {
             api("org.jetbrains.kotlin-wrappers:kotlin-browser:2026.11.2")
             // Event payloads and JSON documents stay `JsAny`, so the bridge type is also part of
             // what a consumer compiles against.
-            api("org.jetbrains.kotlin-wrappers:kotlin-js:2026.11.1")
+            api("org.jetbrains.kotlin-wrappers:kotlin-js:2026.11.2")
         }
         jsMain {
             languageSettings.optIn("kotlin.js.ExperimentalWasmJsInterop")
