@@ -21,6 +21,9 @@ import io.github.shijianjs.ktjs.tiptap.createEditor
 import io.github.shijianjs.ktjs.vaadin.button.ButtonElement
 import io.github.shijianjs.ktjs.vaadin.button.createButton
 import web.animations.requestAnimationFrame
+import web.aria.AriaPressed
+import web.aria.`false` as ariaFalse
+import web.aria.`true` as ariaTrue
 import web.cssom.FontFamily
 import web.cssom.Margin
 import web.cssom.WhiteSpace
@@ -133,7 +136,8 @@ internal class EditorPage : DemoPage() {
             val mark = ACTIONS[index].mark ?: return@forEachIndexed
             val active = target.isActiveNode(mark)
             button.setAttribute("data-active", active.toString())
-            button.setAttribute("aria-pressed", active.toString())
+            // `aria-pressed` is a union of three words; the scalar members arrive as aliased extensions.
+            button.ariaPressed = if (active) AriaPressed.ariaTrue else AriaPressed.ariaFalse
         }
     }
 
