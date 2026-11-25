@@ -22,8 +22,8 @@ import io.github.shijianjs.ktjs.vaadin.button.ButtonElement
 import io.github.shijianjs.ktjs.vaadin.button.createButton
 import web.animations.requestAnimationFrame
 import web.aria.AriaPressed
-import web.aria.`false` as ariaFalse
-import web.aria.`true` as ariaTrue
+import web.aria.`false`
+import web.aria.`true`
 import web.cssom.FontFamily
 import web.cssom.Margin
 import web.cssom.WhiteSpace
@@ -137,7 +137,7 @@ internal class EditorPage : DemoPage() {
             val active = target.isActiveNode(mark)
             button.setAttribute("data-active", active.toString())
             // `aria-pressed` is a union of three words; the scalar members arrive as aliased extensions.
-            button.ariaPressed = if (active) AriaPressed.ariaTrue else AriaPressed.ariaFalse
+            button.ariaPressed = if (active) AriaPressed.`true` else AriaPressed.`false`
         }
     }
 
